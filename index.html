@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DriveGuard AI</title>
+
+    <link rel="stylesheet" href="APP.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="logo">DG</div>
+
+            <div>
+                <h2>DriveGuard AI</h2>
+                <p>Driver Risk Intelligence</p>
+            </div>
+        </div>
+
+
+        <nav>
+
+            <button class="nav-btn active" onclick="showPage('overview', this)">
+                ◉
+                <span>Live Overview</span>
+            </button>
+
+            <button class="nav-btn" onclick="showPage('events', this)">
+                ◷
+                <span>Risk Events</span>
+            </button>
+
+            <button class="nav-btn" onclick="showPage('analytics', this)">
+                ⌁
+                <span>Analytics</span>
+            </button>
+
+            <button class="nav-btn" onclick="showPage('system', this)">
+                ⚙
+                <span>System</span>
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="connection">
+
+                <span class="online-dot"></span>
+
+                <div>
+                    <b id="connectionStatus">
+                        Demo Engine Online
+                    </b>
+
+                    <small id="connectionText">
+                        Local simulation active
+                    </small>
+                </div>
+
+            </div>
+
+
+            <button
+                class="api-button"
+                onclick="toggleAPI()"
+                id="apiButton">
+
+                Switch to Live API
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <span class="eyebrow">
+                    REAL-TIME DRIVER MONITORING
+                </span>
+
+                <h1 id="pageTitle">
+                    Live Overview
+                </h1>
+
+            </div>
+
+
+            <div class="top-right">
+
+                <span id="clock">
+                    00:00:00
+                </span>
+
+                <button class="profile" id="profileButton">
+
+    <span class="profile-icon">👤</span>
+
+    <span class="profile-name" id="profileName">
+        Login
+    </span>
+
+</button>
+            </div>
+
+        </header>
+
+
+        <!-- ================================================= -->
+        <!-- OVERVIEW PAGE -->
+        <!-- ================================================= -->
+
+        <section id="overview" class="page active">
+
+
+            <div class="hero-grid">
+
+
+                <!-- CAMERA -->
+
+                <div class="card camera-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="live">
+                                ● LIVE CAMERA
+                            </span>
+
+                            <h2>
+                                In-Cabin Monitoring
+                            </h2>
+
+                        </div>
+
+                        <button
+                            class="small-button"
+                            onclick="enableCamera()">
+
+                            Enable Camera
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="camera">
+
+                        <video
+                            id="camera"
+                            autoplay
+                            muted
+                            playsinline>
+                        </video>
+
+
+                        <div
+                            id="cameraPlaceholder"
+                            class="camera-placeholder">
+
+                            <div class="camera-icon">
+                                ◉
+                            </div>
+
+                            <h3>
+                                Camera Preview
+                            </h3>
+
+                            <p>
+                                Enable your webcam for live
+                                in-cabin monitoring.
+                            </p>
+
+                        </div>
+
+
+                        <div class="camera-overlay">
+
+                            <span>
+                                FACE TRACKING: ACTIVE
+                            </span>
+
+                            <span>
+                                FPS <span id="fps">30</span>
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            id="riskWarning"
+                            class="risk-warning">
+
+                            HIGH COLLISION RISK
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RISK SCORE -->
+
+                <div class="card risk-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                RISK FUSION ENGINE
+                            </span>
+
+                            <h2>
+                                Driver Risk Score
+                            </h2>
+
+                        </div>
+
+                        <span class="model-badge">
+                            WEIGHTED MODEL
+                        </span>
+
+                    </div>
+
+
+                    <div class="risk-area">
+
+                        <div
+                            id="riskCircle"
+                            class="risk-circle">
+
+                            <div class="risk-inner">
+
+                                <strong id="riskScore">
+                                    0
+                                </strong>
+
+                                <span>
+                                    / 100
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2
+                                id="riskLevel"
+                                class="low-text">
+
+                                LOW RISK
+
+                            </h2>
+
+                            <p id="riskDescription">
+
+                                Driver state is currently stable.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="thresholds">
+
+                        <div>
+                            <span class="dot low"></span>
+                            Low
+                            <b>0–30</b>
+                        </div>
+
+                        <div>
+                            <span class="dot medium"></span>
+                            Medium
+                            <b>31–60</b>
+                        </div>
+
+                        <div>
+                            <span class="dot high"></span>
+                            High
+                            <b>61–100</b>
+                        </div>
+
+                    </div>
+
+
+                    <div class="action">
+
+                        <small>
+                            RECOMMENDED ACTION
+                        </small>
+
+                        <strong id="recommendedAction">
+                            No intervention required
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= METRICS ================= -->
+
+            <div class="metrics">
+
+
+                <!-- DROWSINESS -->
+
+                <div class="card metric">
+
+                    <div class="metric-header">
+
+                        <span>
+                            Drowsiness
+                        </span>
+
+                        <small>
+                            W 40%
+                        </small>
+
+                    </div>
+
+
+                    <div class="metric-value">
+
+                        <strong id="drowsinessValue">
+                            0%
+                        </strong>
+
+                        <span id="drowsinessState">
+                            Alert
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress">
+                        <div id="drowsinessBar"></div>
+                    </div>
+
+
+                    <p>
+                        Eye closure / EAR detection
+                    </p>
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="card metric">
+
+                    <div class="metric-header">
+
+                        <span>
+                            Phone Usage
+                        </span>
+
+                        <small>
+                            W 30%
+                        </small>
+
+                    </div>
+
+
+                    <div class="metric-value">
+
+                        <strong id="phoneValue">
+                            0%
+                        </strong>
+
+                        <span id="phoneState">
+                            Not detected
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress">
+                        <div id="phoneBar"></div>
+                    </div>
+
+
+                    <p>
+                        YOLO object detection
+                    </p>
+
+                </div>
+
+
+                <!-- LANE -->
+
+                <div class="card metric">
+
+                    <div class="metric-header">
+
+                        <span>
+                            Lane Departure
+                        </span>
+
+                        <small>
+                            W 20%
+                        </small>
+
+                    </div>
+
+
+                    <div class="metric-value">
+
+                        <strong id="laneValue">
+                            0%
+                        </strong>
+
+                        <span>
+                            Phase 2
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress">
+                        <div id="laneBar"></div>
+                    </div>
+
+
+                    <p>
+                        Road camera module
+                    </p>
+
+                </div>
+
+
+                <!-- SPEED -->
+
+                <div class="card metric">
+
+                    <div class="metric-header">
+
+                        <span>
+                            Speed Factor
+                        </span>
+
+                        <small>
+                            W 10%
+                        </small>
+
+                    </div>
+
+
+                    <div class="metric-value">
+
+                        <strong id="speedValue">
+                            0%
+                        </strong>
+
+                        <span>
+                            Demo Input
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress">
+                        <div id="speedBar"></div>
+                    </div>
+
+
+                    <p>
+                        Optional / simulated
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= BOTTOM ================= -->
+
+            <div class="bottom-grid">
+
+
+                <!-- EVENTS -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                LIVE EVENT STREAM
+                            </span>
+
+                            <h2>
+                                Recent Safety Events
+                            </h2>
+
+                        </div>
+
+                        <button
+                            class="small-button"
+                            onclick="showPage('events')">
+
+                            View All
+
+                        </button>
+
+                    </div>
+
+
+                    <div id="eventStream" class="events">
+
+                        <div class="empty-event">
+                            No risk events yet.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FORMULA -->
+
+                <div class="card formula-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                EXPLAINABLE AI
+                            </span>
+
+                            <h2>
+                                Risk Fusion Formula
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="formula">
+
+                        Risk =
+
+                        <b>0.40</b> × Drowsiness +
+
+                        <b>0.30</b> × Phone +
+
+                        <b>0.20</b> × Lane +
+
+                        <b>0.10</b> × Speed
+
+                    </div>
+
+
+                    <p class="formula-description">
+
+                        Every component is normalized from
+                        0 to 1. The weighted model produces
+                        an explainable driver risk score.
+
+                    </p>
+
+
+                    <div class="tags">
+
+                        <span>✓ Explainable</span>
+                        <span>✓ Real-time</span>
+                        <span>✓ Modular</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- EVENTS PAGE -->
+        <!-- ================================================= -->
+
+        <section id="events" class="page">
+
+            <div class="section-title">
+
+                <div>
+
+                    <span class="eyebrow">
+                        SAFETY LOG
+                    </span>
+
+                    <h2>
+                        Risk Events
+                    </h2>
+
+                    <p>
+                        Recorded medium and high risk events.
+                    </p>
+
+                </div>
+
+                <button
+                    class="small-button"
+                    onclick="clearEvents()">
+
+                    Clear Events
+
+                </button>
+
+            </div>
+
+
+            <div class="card table-card">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>TIME</th>
+                            <th>RISK</th>
+                            <th>TRIGGER</th>
+                            <th>DROWSINESS</th>
+                            <th>PHONE</th>
+                            <th>ACTION</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="eventTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- ANALYTICS PAGE -->
+        <!-- ================================================= -->
+
+        <section id="analytics" class="page">
+
+            <div class="section-title">
+
+                <div>
+
+                    <span class="eyebrow">
+                        DRIVER INSIGHTS
+                    </span>
+
+                    <h2>
+                        Session Analytics
+                    </h2>
+
+                    <p>
+                        Real-time monitoring statistics.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="analytics-grid">
+
+
+                <div class="card statistic">
+
+                    <span>
+                        Monitoring Time
+                    </span>
+
+                    <strong id="sessionTime">
+                        00:00:00
+                    </strong>
+
+                    <small>
+                        Current session
+                    </small>
+
+                </div>
+
+
+                <div class="card statistic">
+
+                    <span>
+                        High Risk Events
+                    </span>
+
+                    <strong id="highEvents">
+                        0
+                    </strong>
+
+                    <small>
+                        This session
+                    </small>
+
+                </div>
+
+
+                <div class="card statistic">
+
+                    <span>
+                        Medium Risk Events
+                    </span>
+
+                    <strong id="mediumEvents">
+                        0
+                    </strong>
+
+                    <small>
+                        This session
+                    </small>
+
+                </div>
+
+
+                <div class="card statistic">
+
+                    <span>
+                        Peak Risk
+                    </span>
+
+                    <strong id="peakRisk">
+                        0
+                    </strong>
+
+                    <small>
+                        Maximum score
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="card chart-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            TREND
+                        </span>
+
+                        <h2>
+                            Risk Score History
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <canvas id="riskChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- SYSTEM PAGE -->
+        <!-- ================================================= -->
+
+        <section id="system" class="page">
+
+            <div class="section-title">
+
+                <div>
+
+                    <span class="eyebrow">
+                        CONFIGURATION
+                    </span>
+
+                    <h2>
+                        System
+                    </h2>
+
+                    <p>
+                        DriveGuard AI system configuration.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="system-grid">
+
+
+                <div class="card settings">
+
+                    <h3>
+                        Risk Model Weights
+                    </h3>
+
+
+                    <div class="setting">
+
+                        <span>
+                            Drowsiness
+                        </span>
+
+                        <b>
+                            40%
+                        </b>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <span>
+                            Phone Usage
+                        </span>
+
+                        <b>
+                            30%
+                        </b>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <span>
+                            Lane Departure
+                        </span>
+
+                        <b>
+                            20%
+                        </b>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <span>
+                            Speed
+                        </span>
+
+                        <b>
+                            10%
+                        </b>
+
+                    </div>
+
+
+                    <div class="total">
+                        Total Weight: 100% ✓
+                    </div>
+
+                </div>
+
+
+                <div class="card settings">
+
+                    <h3>
+                        Detection Modules
+                    </h3>
+
+
+                    <div class="module">
+
+                        MediaPipe / EAR
+
+                        <b class="active-status">
+                            ACTIVE
+                        </b>
+
+                    </div>
+
+
+                    <div class="module">
+
+                        YOLO Phone Detection
+
+                        <b class="active-status">
+                            ACTIVE
+                        </b>
+
+                    </div>
+
+
+                    <div class="module">
+
+                        Risk Fusion Engine
+
+                        <b class="active-status">
+                            ACTIVE
+                        </b>
+
+                    </div>
+
+
+                    <div class="module">
+
+                        Lane Detection
+
+                        <b class="phase-status">
+                            PHASE 2
+                        </b>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card api-info">
+
+                <h3>
+                    Live API
+                </h3>
+
+                <p>
+                    Python AI can send normalized detection
+                    values to the dashboard.
+                </p>
+
+
+<pre>
+POST /api/status
+
+{
+    "drowsiness": 0.78,
+    "phone": 0.65,
+    "lane": 0.00,
+    "speed": 0.20
+}
+</pre>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+<!-- LOGIN MODAL -->
+
+<div class="login-modal" id="loginModal">
+
+    <div class="login-box">
+
+        <button class="close-login" id="closeLogin">
+            ×
+        </button>
+
+        <div class="login-header">
+
+            <div class="login-logo">
+                DG
+            </div>
+
+            <h2>Driver Login</h2>
+
+            <p>
+                Login to access your DriveGuard AI dashboard
+            </p>
+
+        </div>
+
+
+        <div class="login-field">
+
+            <label>Driver Name</label>
+
+            <input
+                type="text"
+                id="driverName"
+                placeholder="Enter your name"
+            >
+
+        </div>
+
+
+        <div class="login-field">
+
+            <label>Email Address</label>
+
+            <input
+                type="email"
+                id="driverEmail"
+                placeholder="Enter your email"
+            >
+
+        </div>
+
+
+        <div class="login-field">
+
+            <label>Vehicle Number</label>
+
+            <input
+                type="text"
+                id="vehicleNumber"
+                placeholder="MP09 AB 1234"
+            >
+
+        </div>
+
+
+        <button
+            class="login-submit"
+            id="loginSubmit"
+        >
+            Login to DriveGuard
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- PROFILE DROPDOWN -->
+
+<div class="profile-dropdown" id="profileDropdown">
+
+    <div class="profile-dropdown-header">
+
+        <div class="profile-avatar">
+            👤
+        </div>
+
+        <div>
+
+            <strong id="dropdownName">
+                Driver
+            </strong>
+
+            <span id="dropdownEmail">
+                driver@email.com
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="profile-vehicle">
+
+        🚗
+
+        <span id="dropdownVehicle">
+            Vehicle not added
+        </span>
+
+    </div>
+
+
+    <div class="profile-divider"></div>
+
+
+    <button
+        class="logout-button"
+        id="logoutButton"
+    >
+        🚪 Logout
+    </button>
+
+</div>
+
+<script src="APP.js"></script>
+
+</body>
+</html>
